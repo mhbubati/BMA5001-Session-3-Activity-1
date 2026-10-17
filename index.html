@@ -1,0 +1,1638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+<meta name="theme-color" content="#003366">
+<meta name="description" content="A scaffolded, interactive BMA5001 Innovation Management activity for idea generation, peer feedback, reflection and decision-making.">
+<title>BMA5001 | Session 3 | Innovation Idea Lab</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* ===== ROOT ===== */
+:root {
+  --bsu-navy: #003366;
+  --bsu-navy-dark: #001a33;
+  --bsu-navy-light: #174a78;
+  --bsu-blue: #0055A4;
+  --bsu-gold: #ffd84d;
+  --bsu-gold-light: #ffe45c;
+  --bsu-gold-dark: #624900;
+
+  --accent-innovation: #7c3aed;
+  --accent-innovation-light: #a78bfa;
+  --accent-green: #10b981;
+  --accent-orange: #f59e0b;
+  --accent-red: #ef4444;
+  --accent-teal: #06b6d4;
+
+  --bg-primary: #06182b;
+  --bg-secondary: #0b2745;
+  --bg-card: rgba(11, 39, 69, 0.85);
+  --bg-card-solid: #0b2745;
+  --bg-elevated: #123456;
+  --bg-input: #071d34;
+
+  --text-primary: #ffffff;
+  --text-secondary: #e2eaf3;
+  --text-muted: #c2d0df;
+  --text-inverse: #001a33;
+
+  --border: #526b83;
+  --border-strong: #8ca2b8;
+  --border-gold: #ffd84d;
+
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.5);
+  --shadow-glow: 0 0 40px rgba(200, 164, 21, 0.2);
+  --shadow-glow-innovation: 0 0 40px rgba(124, 58, 237, 0.25);
+
+  --radius-sm: 8px;
+  --radius: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
+
+  --font: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --transition: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-theme="light"] {
+  --bg-primary: #f5f8fc;
+  --bg-secondary: #e8eff7;
+  --bg-card: rgba(255, 255, 255, 0.9);
+  --bg-card-solid: #ffffff;
+  --bg-elevated: #eef3f8;
+  --bg-input: #ffffff;
+
+  --text-primary: #102b46;
+  --text-secondary: #263f58;
+  --text-muted: #40566b;
+  --text-inverse: #ffffff;
+
+  --border: #a6b5c5;
+  --border-strong: #647b91;
+  --border-gold: #806000;
+
+  --shadow-sm: 0 2px 8px rgba(0, 51, 102, 0.08);
+  --shadow: 0 8px 30px rgba(0, 51, 102, 0.12);
+  --shadow-lg: 0 20px 60px rgba(0, 51, 102, 0.18);
+  --shadow-glow: 0 0 40px rgba(200, 164, 21, 0.15);
+}
+
+/* ===== RESET & ANIMATIONS ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body {
+  font-family: var(--font);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.65;
+  min-height: 100vh;
+  padding: 24px 16px 40px;
+  -webkit-font-smoothing: antialiased;
+  position: relative;
+  overflow-x: hidden;
+  transition: background var(--transition), color var(--transition);
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-15px) rotate(2deg); }
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(124, 58, 237, 0.2); }
+  50% { box-shadow: 0 0 40px rgba(124, 58, 237, 0.4); }
+}
+
+/* Animated background */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 20% 10%, rgba(0, 51, 102, 0.20) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 80% 90%, rgba(255, 216, 77, 0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 80% 60% at 50% 50%, rgba(124, 58, 237, 0.08) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+  animation: bgShift 30s ease-in-out infinite alternate;
+}
+@keyframes bgShift {
+  0% { transform: scale(1) rotate(0deg); }
+  100% { transform: scale(1.1) rotate(3deg); }
+}
+[data-theme="light"] body::before {
+  background:
+    radial-gradient(ellipse 60% 50% at 20% 10%, rgba(0, 51, 102, 0.06) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 80% 90%, rgba(255, 216, 77, 0.04) 0%, transparent 60%),
+    radial-gradient(ellipse 80% 60% at 50% 50%, rgba(124, 58, 237, 0.04) 0%, transparent 70%);
+}
+
+/* ===== CONTAINER ===== */
+.container {
+  max-width: 1000px;
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* ===== TOP CONTROLS ===== */
+.top-controls {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.top-btn {
+  background: var(--bg-card-solid);
+  border: 1px solid var(--border-strong);
+  color: var(--text-primary);
+  padding: 10px 16px;
+  border-radius: 30px;
+  cursor: pointer;
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all var(--transition);
+  backdrop-filter: blur(12px);
+  min-height: 40px;
+}
+.top-btn:hover {
+  border-color: var(--bsu-gold);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+/* ===== HEADER ===== */
+.header {
+  text-align: center;
+  margin-bottom: 32px;
+  position: relative;
+  animation: fadeInUp 0.8s ease-out;
+}
+.module-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.2), rgba(200, 164, 21, 0.15));
+  border: 1px solid var(--border-gold);
+  color: var(--bsu-gold-light);
+  padding: 6px 18px;
+  border-radius: 24px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+h1 {
+  font-size: clamp(28px, 5vw, 44px);
+  font-weight: 900;
+  line-height: 1.15;
+  margin-bottom: 14px;
+  background: linear-gradient(135deg, #ffffff 0%, var(--bsu-gold-light) 60%, var(--accent-innovation-light) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: -0.02em;
+}
+[data-theme="light"] h1 {
+  background: linear-gradient(135deg, var(--bsu-navy) 0%, var(--bsu-gold-dark) 60%, var(--accent-innovation) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.tagline {
+  font-size: clamp(15px, 2vw, 17px);
+  color: var(--text-secondary);
+  max-width: 680px;
+  margin: 0 auto;
+  line-height: 1.65;
+}
+
+/* ===== WELCOME CARD ===== */
+.welcome-card {
+  background: var(--bg-card);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 24px 28px;
+  margin-bottom: 28px;
+  position: relative;
+  overflow: hidden;
+  animation: fadeInUp 0.8s ease-out 0.1s backwards;
+}
+.welcome-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent-innovation), var(--bsu-gold), var(--accent-teal));
+}
+.welcome-card h2 {
+  font-size: 18px;
+  font-weight: 800;
+  margin-bottom: 10px;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.welcome-card p {
+  font-size: 14.5px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin-bottom: 10px;
+}
+.welcome-card p:last-child { margin-bottom: 0; }
+.welcome-card strong { color: var(--bsu-gold-light); font-weight: 700; }
+[data-theme="light"] .welcome-card strong { color: var(--bsu-gold-dark); }
+
+/* ===== PROGRESS BAR ===== */
+.progress-wrap {
+  position: sticky;
+  top: 12px;
+  z-index: 100;
+  background: var(--bg-card);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  margin-bottom: 28px;
+  box-shadow: var(--shadow-sm);
+  animation: fadeInUp 0.8s ease-out 0.2s backwards;
+}
+.progress-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  font-size: 13px;
+  font-weight: 700;
+}
+.progress-info .progress-label { color: var(--text-secondary); }
+.progress-info .progress-percent { color: var(--bsu-gold-light); font-family: var(--font-mono); font-size: 15px; }
+[data-theme="light"] .progress-info .progress-percent { color: var(--bsu-gold-dark); }
+
+.progress-track {
+  height: 8px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+  border: 1px solid var(--border-strong);
+}
+[data-theme="light"] .progress-track { background: rgba(0,51,102,0.1); }
+
+.progress-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--accent-innovation), var(--bsu-gold));
+  border-radius: 10px;
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+.progress-fill::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+  animation: shimmer 2s infinite;
+}
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* ===== ROUND SECTION ===== */
+.round {
+  background: var(--bg-card);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 32px 28px;
+  margin-bottom: 24px;
+  position: relative;
+  overflow: hidden;
+  transition: all var(--transition);
+  opacity: 0;
+  transform: translateY(30px);
+}
+.round.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.round:hover {
+  box-shadow: var(--shadow-lg);
+  border-color: var(--border-gold);
+}
+.round::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 4px;
+  background: linear-gradient(90deg, var(--accent-innovation), var(--bsu-gold));
+  opacity: 0.8;
+}
+.round.round-1::before { background: linear-gradient(90deg, var(--accent-teal), var(--accent-innovation)); }
+.round.round-2::before { background: linear-gradient(90deg, var(--accent-innovation), var(--bsu-gold)); }
+.round.round-3::before { background: linear-gradient(90deg, var(--bsu-gold), var(--accent-orange)); }
+
+.round-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+.round-number {
+  width: 56px; height: 56px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, var(--accent-innovation), var(--bsu-navy));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  font-weight: 900;
+  color: white;
+  flex-shrink: 0;
+  box-shadow: var(--shadow-glow-innovation);
+  font-family: var(--font-mono);
+  animation: pulse-glow 3s infinite ease-in-out;
+}
+.round.round-1 .round-number { background: linear-gradient(135deg, var(--accent-teal), var(--bsu-navy)); }
+.round.round-3 .round-number { background: linear-gradient(135deg, var(--bsu-gold-dark), var(--accent-orange)); }
+
+.round-title-wrap { flex: 1; }
+.round-eyebrow {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--bsu-gold-light);
+  margin-bottom: 4px;
+}
+[data-theme="light"] .round-eyebrow { color: var(--bsu-gold-dark); }
+
+.round-title {
+  font-size: clamp(20px, 3vw, 26px);
+  font-weight: 900;
+  color: var(--text-primary);
+  line-height: 1.2;
+  margin-bottom: 6px;
+  letter-spacing: -0.01em;
+}
+.round-time {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--accent-teal);
+  background: rgba(6, 182, 212, 0.1);
+  padding: 4px 12px;
+  border-radius: 20px;
+}
+
+.round-intro {
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin-bottom: 22px;
+  padding: 14px 18px;
+  background: var(--bg-elevated);
+  border-left: 3px solid var(--accent-innovation);
+  border-radius: 8px;
+}
+.round-intro strong { color: var(--bsu-gold-light); font-weight: 700; }
+[data-theme="light"] .round-intro strong { color: var(--bsu-gold-dark); }
+
+/* ===== FIELDS ===== */
+.field-group { margin-bottom: 22px; }
+.field-label {
+  display: block;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+.field-label .field-hint {
+  font-weight: 500;
+  font-size: 12.5px;
+  color: var(--text-muted);
+  margin-left: 6px;
+}
+.field-input, .field-textarea {
+  width: 100%;
+  background: var(--bg-input);
+  border: 1.5px solid var(--border-strong);
+  border-radius: 12px;
+  padding: 14px 16px;
+  font-family: var(--font);
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: var(--text-primary);
+  transition: all var(--transition);
+  resize: vertical;
+}
+.field-input::placeholder, .field-textarea::placeholder {
+  color: var(--text-muted);
+  font-style: italic;
+  opacity: 1;
+}
+.field-input:focus, .field-textarea:focus {
+  outline: 3px solid var(--bsu-gold);
+  outline-offset: 2px;
+  border-color: var(--bsu-gold);
+  background: rgba(124, 58, 237, 0.05);
+}
+[data-theme="light"] .field-input:focus, [data-theme="light"] .field-textarea:focus {
+  outline-color: var(--bsu-navy);
+  border-color: var(--bsu-navy);
+}
+.field-textarea { min-height: 80px; }
+.field-textarea.large { min-height: 120px; }
+
+/* Member inputs */
+.member-row {
+  display: grid;
+  grid-template-columns: 40px 1fr 1fr;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 10px;
+  animation: fadeInUp 0.4s ease-out backwards;
+}
+.member-row:nth-child(1) { animation-delay: 0.1s; }
+.member-row:nth-child(2) { animation-delay: 0.2s; }
+.member-row:nth-child(3) { animation-delay: 0.3s; }
+.member-row:nth-child(4) { animation-delay: 0.4s; }
+
+.member-number {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--bsu-gold-light);
+  font-family: var(--font-mono);
+}
+
+/* Work style selector */
+.work-style {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 6px;
+}
+.style-option {
+  background: var(--bg-card-solid);
+  border: 1.5px solid var(--border-strong);
+  border-radius: 12px;
+  padding: 14px 12px;
+  cursor: pointer;
+  text-align: center;
+  transition: all var(--transition);
+  font-family: var(--font);
+  position: relative;
+  color: var(--text-primary);
+}
+.style-option:hover {
+  border-color: var(--accent-innovation);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-glow-innovation);
+}
+.style-option.selected {
+  border-color: var(--bsu-gold);
+  background: var(--bg-elevated);
+  box-shadow: 0 0 0 3px rgba(200, 164, 21, 0.2);
+}
+[data-theme="light"] .style-option.selected {
+  border-color: var(--bsu-navy);
+  background: #e8eff7;
+}
+.style-option .style-icon { font-size: 22px; display: block; margin-bottom: 6px; }
+.style-option .style-label { font-size: 12.5px; font-weight: 700; color: var(--text-primary); }
+
+/* ===== AREA CARDS ===== */
+.area-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 12px;
+  margin-top: 12px;
+}
+.area-card {
+  background: var(--bg-card-solid);
+  border: 1.5px solid var(--border-strong);
+  border-radius: 14px;
+  padding: 16px 10px;
+  cursor: pointer;
+  text-align: center;
+  transition: all var(--transition);
+  font-family: var(--font);
+  position: relative;
+  overflow: hidden;
+  color: var(--text-primary);
+}
+.area-card:hover {
+  border-color: var(--accent-innovation);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-glow-innovation);
+}
+.area-card.selected {
+  border-color: var(--bsu-gold);
+  background: var(--bg-elevated);
+  box-shadow: 0 0 0 3px rgba(200, 164, 21, 0.2);
+}
+[data-theme="light"] .area-card.selected {
+  border-color: var(--bsu-navy);
+  background: #e8eff7;
+}
+.area-card.selected::after {
+  content: '✓';
+  position: absolute;
+  top: 6px; right: 8px;
+  width: 20px; height: 20px;
+  background: var(--bsu-gold);
+  color: var(--bsu-navy-dark);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 900;
+  animation: fadeInUp 0.3s ease;
+}
+.area-icon { font-size: 26px; display: block; margin-bottom: 6px; }
+.area-label { font-size: 12.5px; font-weight: 700; color: var(--text-primary); line-height: 1.3; }
+
+/* ===== IDEA SLOTS ===== */
+.idea-slot {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px 20px;
+  margin-bottom: 14px;
+  position: relative;
+  transition: all var(--transition);
+}
+.idea-slot:hover {
+  border-color: var(--border-gold);
+  box-shadow: var(--shadow-sm);
+}
+.idea-slot-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  font-weight: 800;
+  color: var(--bsu-gold-light);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+[data-theme="light"] .idea-slot-label { color: var(--bsu-gold-dark); }
+
+.idea-slot-label .idea-num {
+  background: var(--bsu-gold);
+  color: var(--bsu-navy-dark);
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+
+/* ===== TEAMWORK STATEMENT ===== */
+.teamwork-statement {
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.1), rgba(6, 182, 212, 0.1));
+  border: 1px solid rgba(124, 58, 237, 0.3);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  margin: 32px 0;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  animation: fadeInUp 0.6s ease-out;
+}
+.teamwork-statement::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent-innovation), var(--accent-teal));
+}
+.statement-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+  display: inline-block;
+  animation: float 4s ease-in-out infinite;
+}
+.teamwork-statement h3 {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+}
+.teamwork-statement p {
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+/* ===== PITCH SECTION ===== */
+.pitch-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 6px;
+}
+@media (max-width: 700px) {
+  .pitch-grid { grid-template-columns: 1fr; }
+}
+
+/* ===== PEER FEEDBACK SECTION ===== */
+.peer-section {
+  background: linear-gradient(135deg, rgba(6, 182, 212, 0.08), rgba(124, 58, 237, 0.06));
+  border: 1px solid rgba(6, 182, 212, 0.3);
+  border-radius: 16px;
+  padding: 22px 24px;
+  margin: 24px 0;
+}
+.peer-section-title {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.peer-section-desc {
+  font-size: 13.5px;
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+  line-height: 1.6;
+}
+
+/* ===== FINAL DECISION ===== */
+.decision-card {
+  background: linear-gradient(135deg, rgba(255, 216, 77, 0.12), rgba(245, 158, 11, 0.06));
+  border: 1.5px solid var(--border-gold);
+  border-radius: 16px;
+  padding: 24px 26px;
+  margin-top: 8px;
+}
+.decision-card-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--bsu-gold-light);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+[data-theme="light"] .decision-card-title { color: var(--bsu-gold-dark); }
+
+/* ===== COMPLETION BANNER ===== */
+.completion-banner {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(6, 182, 212, 0.1));
+  border: 2px solid rgba(16, 185, 129, 0.4);
+  border-radius: var(--radius-lg);
+  padding: 32px 28px;
+  text-align: center;
+  margin: 30px 0;
+  display: none;
+  animation: fadeInUp 0.6s ease;
+}
+.completion-banner.show { display: block; }
+.completion-banner .trophy { font-size: 64px; margin-bottom: 12px; display: block; animation: float 3s ease-in-out infinite; }
+.completion-banner h2 {
+  font-size: 28px;
+  font-weight: 900;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+.completion-banner p { font-size: 15px; color: var(--text-secondary); line-height: 1.7; }
+.completion-banner .badge-title {
+  display: inline-block;
+  margin-top: 16px;
+  background: linear-gradient(135deg, var(--bsu-gold), var(--bsu-gold-dark));
+  color: var(--bsu-navy-dark);
+  padding: 10px 24px;
+  border-radius: 30px;
+  font-weight: 900;
+  font-size: 14px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  box-shadow: 0 6px 20px rgba(200, 164, 21, 0.4);
+}
+
+/* ===== ACTION BAR ===== */
+.action-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 32px;
+  padding: 20px;
+  background: var(--bg-card);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  animation: fadeInUp 0.6s ease-out;
+}
+.btn {
+  padding: 14px 24px;
+  font-family: var(--font);
+  font-size: 14px;
+  font-weight: 700;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all var(--transition);
+  min-height: 48px;
+}
+.btn:hover { transform: translateY(-2px); }
+.btn:active { transform: translateY(0); }
+.btn-primary, .btn-gold {
+  background: linear-gradient(135deg, var(--bsu-gold), var(--bsu-gold-dark));
+  color: var(--bsu-navy-dark);
+  box-shadow: 0 4px 14px rgba(200, 164, 21, 0.4);
+}
+.btn-primary:hover, .btn-gold:hover { box-shadow: 0 8px 24px rgba(200, 164, 21, 0.6); }
+.btn-ghost {
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1.5px solid var(--border);
+}
+.btn-ghost:hover { border-color: var(--accent-red); color: var(--accent-red); }
+.save-status {
+  margin-left: auto;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.save-status.saved { color: var(--accent-green); }
+
+/* ===== TOAST ===== */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: var(--bsu-navy);
+  color: white;
+  padding: 14px 24px;
+  border-radius: 30px;
+  font-size: 14px;
+  font-weight: 700;
+  border: 1.5px solid var(--bsu-gold);
+  box-shadow: var(--shadow-lg);
+  z-index: 10000;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.toast.show { transform: translateX(-50%) translateY(0); }
+
+/* ===== FLOATING LEARNING ICONS ===== */
+.floating-icons { position: fixed; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+.float-icon { position: absolute; display: block; opacity: .12; filter: saturate(.8); font-size: clamp(22px, 3vw, 36px); animation: floatDrift 16s ease-in-out infinite; }
+.float-icon--bulb { left: 4%; top: 20%; animation-delay: -2s; }
+.float-icon--spark { left: 88%; top: 16%; font-size: 28px; animation-delay: -7s; }
+.float-icon--leaf { left: 8%; top: 72%; animation-delay: -11s; }
+.float-icon--idea { left: 91%; top: 58%; animation-delay: -4s; }
+.float-icon--rocket { left: 76%; top: 83%; animation-delay: -9s; }
+.float-icon--globe { left: 48%; top: 8%; font-size: 24px; animation-delay: -13s; }
+@keyframes floatDrift { 0%,100% { transform: translate3d(0,0,0) rotate(-5deg); } 50% { transform: translate3d(12px,-22px,0) rotate(7deg); } }
+@media (max-width: 640px) { .float-icon { opacity: .08; font-size: 24px; } .float-icon--globe, .float-icon--rocket { display: none; } }
+
+/* ===== FOOTER ===== */
+.module-footer {
+  max-width: 1000px;
+  margin: 40px auto 0;
+  padding: 28px 32px;
+  background: linear-gradient(125deg, #001a33, #003366 72%, #08284a);
+  border: 1px solid var(--border-gold);
+  border-top: 5px solid #ffd84d;
+  border-radius: var(--radius-lg);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: #ffffff;
+}
+.footer-university, .footer-tagline, .footer-contact a { color: #ffe45c !important; }
+.footer-module, .footer-contact { color: #ffffff !important; }
+.footer-contact a { text-decoration: none; font-weight: 700; }
+.footer-contact a:hover { text-decoration: underline; }
+.footer-divider {
+  width: 80px;
+  height: 2px;
+  background: #ffe45c;
+  margin: 14px auto;
+  border-radius: 1px;
+}
+.footer-tagline {
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+/* ===== CONFETTI CANVAS ===== */
+#confetti-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9998;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+#confetti-canvas.active { opacity: 1; }
+
+/* ===== ACCESSIBILITY + RESPONSIVE POLISH ===== */
+:focus-visible { outline: 3px solid var(--bsu-gold-light); outline-offset: 3px; }
+[data-theme="light"] :focus-visible { outline-color: var(--bsu-navy); }
+.style-option, .area-card { color: var(--text-primary); }
+.style-option:focus-visible, .area-card:focus-visible { border-color: var(--bsu-gold-light); box-shadow: 0 0 0 3px rgba(224,190,58,.24); }
+.progress-track { border: 1px solid var(--border-strong); }
+.progress-fill { min-width: 0; }
+.top-btn:focus-visible, .btn:focus-visible { outline-color: var(--bsu-gold-light); }
+::selection { color: #001a33; background: #ffe45c; }
+
+@media (max-width: 640px) {
+  body { padding: 16px 10px 32px; }
+  .round { padding: 24px 20px; }
+  .round-header { gap: 12px; }
+  .round-number { width: 48px; height: 48px; font-size: 22px; }
+  .work-style { grid-template-columns: 1fr; }
+  .area-grid { grid-template-columns: repeat(2, 1fr); }
+  .member-row { grid-template-columns: 36px 1fr; }
+  .member-row .field-input:last-child { grid-column: 2; }
+  .action-bar { flex-direction: column; }
+  .btn { width: 100%; justify-content: center; }
+  .save-status { margin-left: 0; justify-content: center; }
+  .top-controls { gap: 8px; }
+  .top-btn { padding: 8px 14px; font-size: 12px; }
+  .module-footer { padding: 24px 18px; overflow-wrap: anywhere; }
+  .round-intro { padding: 12px 14px; }
+  .progress-wrap { top: 6px; }
+  .teamwork-statement { padding: 20px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
+
+@media print {
+  body { background: #fff !important; color: #111 !important; padding: 20px; }
+  body::before, .top-controls, .action-bar, .progress-wrap, #confetti-canvas, .completion-banner, .floating-icons, .teamwork-statement { display: none !important; }
+  .round, .welcome-card, .module-footer {
+    background: #fff !important;
+    border: 1px solid #ccc !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    break-inside: avoid;
+  }
+  h1, .round-title { color: #003366 !important; -webkit-text-fill-color: #003366 !important; background: none !important; }
+  .round-title-wrap, .round-intro { color: #333 !important; }
+  .field-input, .field-textarea { border: 1px solid #999 !important; background: #fff !important; color: #111 !important; }
+  .module-footer { color: #111 !important; }
+  .footer-university, .footer-tagline, .footer-module, .footer-contact, .footer-contact a { color: #111 !important; }
+}
+
+@media (forced-colors: active) {
+  *, *::before, *::after { forced-color-adjust: auto; }
+  :focus-visible { outline: 3px solid Highlight; }
+  .btn, .top-btn, .style-option, .area-card, .field-input, .field-textarea { border: 1px solid ButtonText; }
+}
+</style>
+</head>
+<body>
+
+<canvas id="confetti-canvas"></canvas>
+<!-- Decorative floating innovation icons; hidden from assistive technology. -->
+<div class="floating-icons" aria-hidden="true">
+  <span class="float-icon float-icon--bulb">💡</span>
+  <span class="float-icon float-icon--spark">✨</span>
+  <span class="float-icon float-icon--leaf">🌱</span>
+  <span class="float-icon float-icon--idea">💭</span>
+  <span class="float-icon float-icon--rocket">🚀</span>
+  <span class="float-icon float-icon--globe">🌍</span>
+</div>
+
+<div class="container">
+
+  <!-- TOP CONTROLS -->
+  <div class="top-controls">
+    <button class="top-btn" id="themeToggle" aria-label="Toggle theme">
+      <span id="themeIcon">🌙</span>
+      <span id="themeLabel">Dark</span>
+    </button>
+  </div>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="module-badge">BMA5001 · Innovation Management · Session 3</div>
+    <h1>Innovation Idea Lab</h1>
+    <p class="tagline">From individual thinking to a professional innovation team — build, pitch, and decide.</p>
+  </header>
+
+  <!-- WELCOME -->
+  <div class="welcome-card">
+    <h2>🧠 Building Your Innovation Idea</h2>
+    <p>
+      Although your assessment is an <strong>individual report</strong>, you are recommended to work in teams — so you can share ideas, receive feedback, and work professionally, collaboratively, and confidently.
+    </p>
+    <p>
+      <strong>Learning route:</strong> explore a problem, generate alternatives, test ideas through peer dialogue, then justify a decision. Focus on evidence and reasoning rather than trying to produce a perfect idea immediately.
+    </p>
+    <p>
+      <strong>This activity mirrors how innovation projects launch in real organisations.</strong> Take it seriously — what you establish now will save time, reduce stress, and improve the quality of your final submission.
+    </p>
+  </div>
+
+  <!-- PROGRESS -->
+  <div class="progress-wrap">
+    <div class="progress-info">
+      <span class="progress-label">Overall progress</span>
+      <span class="progress-percent" id="progressPercent">0%</span>
+    </div>
+    <div class="progress-track" role="progressbar" aria-label="Activity completion" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="progressTrack">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+  </div>
+
+  <!-- ============ ROUND 1 ============ -->
+  <section class="round round-1" id="round1">
+    <div class="round-header">
+      <div class="round-number">1</div>
+      <div class="round-title-wrap">
+        <div class="round-eyebrow">Round One</div>
+        <h2 class="round-title">Form Your Group 🤝</h2>
+      </div>
+    </div>
+    <div class="round-intro">
+      <strong>Form a group of 3–4 students</strong> with whom you are happy to discuss and get feedback from. You may work with peers you have collaborated with before, or form a new group to bring fresh perspectives.
+      <br><br>
+      📌 <em>In organisations, innovation teams are often formed quickly — and must learn to work together effectively.</em>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label">Group members <span class="field-hint">(name + role, up to 4)</span></label>
+      <div class="member-row">
+        <div class="member-number">1</div>
+        <input type="text" class="field-input" id="member1Name" placeholder="Name" />
+        <input type="text" class="field-input" id="member1Role" placeholder="Strength / role" />
+      </div>
+      <div class="member-row">
+        <div class="member-number">2</div>
+        <input type="text" class="field-input" id="member2Name" placeholder="Name" />
+        <input type="text" class="field-input" id="member2Role" placeholder="Strength / role" />
+      </div>
+      <div class="member-row">
+        <div class="member-number">3</div>
+        <input type="text" class="field-input" id="member3Name" placeholder="Name (optional)" />
+        <input type="text" class="field-input" id="member3Role" placeholder="Strength / role (optional)" />
+      </div>
+      <div class="member-row">
+        <div class="member-number">4</div>
+        <input type="text" class="field-input" id="member4Name" placeholder="Name (optional)" />
+        <input type="text" class="field-input" id="member4Role" placeholder="Strength / role (optional)" />
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ROUND 2 ============ -->
+  <section class="round round-2" id="round2">
+    <div class="round-header">
+      <div class="round-number">2</div>
+      <div class="round-title-wrap">
+        <div class="round-eyebrow">Round Two</div>
+        <h2 class="round-title">Define Your Innovation Idea 💡</h2>
+      </div>
+    </div>
+    <div class="round-intro">
+      <strong>Broad Exploration:</strong> identify broad areas of interest. Then, individually, spend time developing ideas linked to one of those areas. You may use creativity techniques (e.g., <strong>NESTA tools</strong>) if helpful.
+      <br><br>
+      🔎 <em>For inspiration, think about: What do you wish could be improved, changed, or done differently? (e.g. climate change, loneliness in older people, digital overload, poor customer service).</em>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label">Select your broad area(s) of interest</label>
+      <div class="area-grid" id="areaGrid">
+        <div class="area-card" data-area="Online Retail" role="button" tabindex="0" aria-pressed="false">
+          <span class="area-icon">🛒</span>
+          <span class="area-label">Online Retail</span>
+        </div>
+        <div class="area-card" data-area="Artificial Intelligence" role="button" tabindex="0" aria-pressed="false">
+          <span class="area-icon">🤖</span>
+          <span class="area-label">Artificial Intelligence</span>
+        </div>
+        <div class="area-card" data-area="Sustainability" role="button" tabindex="0" aria-pressed="false">
+          <span class="area-icon">🌱</span>
+          <span class="area-label">Sustainability</span>
+        </div>
+        <div class="area-card" data-area="Student Experience" role="button" tabindex="0" aria-pressed="false">
+          <span class="area-icon">🎓</span>
+          <span class="area-label">Student Experience</span>
+        </div>
+        <div class="area-card" data-area="Healthcare" role="button" tabindex="0" aria-pressed="false">
+          <span class="area-icon">❤️‍🩹</span>
+          <span class="area-label">Healthcare</span>
+        </div>
+        <div class="area-card" data-area="Digital Services" role="button" tabindex="0" aria-pressed="false">
+          <span class="area-icon">💻</span>
+          <span class="area-label">Digital Services</span>
+        </div>
+        <div class="area-card" data-area="Other" role="button" tabindex="0" aria-pressed="false">
+          <span class="area-icon">💡</span>
+          <span class="area-label">Other (Specify)</span>
+        </div>
+      </div>
+      
+      <!-- Dynamic "Other" Input -->
+      <div class="field-group" id="otherAreaGroup" style="display: none; margin-top: 16px;">
+        <label class="field-label" for="otherAreaText">Please specify your area of interest</label>
+        <input type="text" class="field-input" id="otherAreaText" placeholder="e.g., Sustainable Fashion, EdTech, Smart Cities, etc." />
+      </div are>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label" for="problemStatement">
+        What problem do you want to solve?
+        <span class="field-hint">(one clear sentence)</span>
+      </label>
+      <textarea class="field-textarea" id="problemStatement" placeholder="e.g., Older people in UK cities experience loneliness because they lack accessible, safe opportunities to meet others nearby..."></textarea>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label" for="areaRationale">
+        Why does this area interest you?
+        <span class="field-hint">(what's your personal connection?)</span>
+      </label>
+      <textarea class="field-textarea" id="areaRationale" placeholder="e.g., I have seen how isolation affects my grandmother, and I believe technology can help without replacing human contact..."></textarea>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label" for="creativityTechnique">
+        Creativity technique you used
+        <span class="field-hint">(optional — NESTA tools, SCAMPER, mind map, etc.)</span>
+      </label>
+      <input type="text" class="field-input" id="creativityTechnique" placeholder="e.g., NESTA 'Fast Idea Generator', mind map, or '5 Whys'" />
+    </div>
+  </section>
+
+  <!-- ============ ROUND 3 ============ -->
+  <section class="round round-3" id="round3">
+    <div class="round-header">
+      <div class="round-number">3</div>
+      <div class="round-title-wrap">
+        <div class="round-eyebrow">Round Three</div>
+        <h2 class="round-title">Pitch & Final Decision 🎯</h2>
+        <div class="round-time">⏱️ Pitch · Listen · Decide</div>
+      </div>
+    </div>
+    <div class="round-intro">
+      <strong>Pitch your preferred idea(s)</strong> to your partner or group. Listen actively. Ask clarifying questions. Build on each other's ideas.
+      <br><br>
+      📌 <em>Innovation is collaborative, not competitive. This reflects how innovation committees make decisions in organisations.</em>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label">Your top 2 ideas</label>
+      <div class="idea-slot">
+        <div class="idea-slot-label"><span class="idea-num">1</span> Idea 1</div>
+        <textarea class="field-textarea" id="idea1" placeholder="Describe your first idea — what it is, who it's for, and why it matters..."></textarea>
+      </div>
+      <div class="idea-slot">
+        <div class="idea-slot-label"><span class="idea-num">2</span> Idea 2</div>
+        <textarea class="field-textarea" id="idea2" placeholder="Describe your second idea — what it is, who it's for, and why it matters..."></textarea>
+      </div>
+    </div>
+
+    <div class="peer-section">
+      <div class="peer-section-title">🗣️ Peer feedback you received</div>
+      <div class="peer-section-desc">
+        What questions did your partner ask? What did they suggest? What new angle did they offer?
+      </div>
+      <textarea class="field-textarea" id="peerFeedback" placeholder="e.g., My partner asked who would pay for this. She suggested partnering with local councils. She also pointed out that older users might not trust an app..."></textarea>
+    </div>
+
+    <div class="decision-card">
+      <div class="decision-card-title">✅ Your final decision</div>
+      <div class="pitch-grid">
+        <div class="field-group">
+          <label class="field-label" for="finalIdea">Chosen idea</label>
+          <input type="text" class="field-input" id="finalIdea" placeholder="Idea 1 or Idea 2" />
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="finalTitle">Working title</label>
+          <input type="text" class="field-input" id="finalTitle" placeholder="e.g., 'Connect + Care' — a platform for safe local meet-ups" />
+        </div>
+      </div>
+      <div class="field-group">
+        <label class="field-label" for="finalRationale">
+          Why this idea?
+          <span class="field-hint">(what made you choose it over the other?)</span>
+        </label>
+        <textarea class="field-textarea large" id="finalRationale" placeholder="e.g., It solves a real problem, has a clear market, and my partner's feedback helped me see it's more scalable than my first idea..."></textarea>
+      </div>
+      <div class="field-group" style="margin-bottom: 0;">
+        <label class="field-label" for="nextSteps">
+          Your next step
+          <span class="field-hint">(what will you do before Session 4?)</span>
+        </label>
+        <textarea class="field-textarea" id="nextSteps" placeholder="e.g., Research 3 competitors, draft a one-page concept, and talk to two potential users..."></textarea>
+      </div>
+    </div>
+  </section>
+
+  <!-- TEAMWORK STATEMENT -->
+  <div class="teamwork-statement">
+    <div class="statement-icon">🤝</div>
+    <h3>The Power of Collaborative Innovation</h3>
+    <p>Innovation is rarely a solo endeavor. The most groundbreaking ideas emerge when diverse perspectives collide, challenge assumptions, and build upon one another. Working together in an innovation team isn't just about dividing tasks—it's about multiplying creativity, mitigating blind spots, and transforming individual sparks into collective breakthroughs. Embrace the dialogue, value every voice, and remember: the best ideas are built together.</p>
+  </div>
+
+  <!-- COMPLETION -->
+  <div class="completion-banner" id="completionBanner">
+    <span class="trophy">🏆</span>
+    <h2>You did it.</h2>
+    <p>You've moved from individual thinking to a professional innovation team — and you have the foundations for your assessment.</p>
+    <span class="badge-title">Innovation Catalyst</span>
+  </div>
+
+  <!-- ACTION BAR -->
+  <div class="action-bar">
+    <button class="btn btn-gold" id="saveWordBtn">💾 Save as MS Word</button>
+    <button class="btn btn-ghost" id="resetBtn">🔄 Reset All</button>
+    <span class="save-status" id="saveStatus">Auto-saved</span>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer class="module-footer">
+  <div class="footer-university">🏛️ Bath Spa University — Hackney</div>
+  <div class="footer-module">BMA5001 — Innovation Management</div>
+  <div class="footer-contact">Module Leader: Mohammed Hbubati · <a href="mailto:m.hbubati@bathspa.ac.uk">m.hbubati@bathspa.ac.uk</a></div>
+  <div class="footer-divider"></div>
+  <div class="footer-tagline">🌱 Designed for Interactive & Sustainable Learning</div>
+</footer>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <span>✓</span>
+  <span id="toastText">Saved</span>
+</div>
+
+<script>
+(function() {
+  'use strict';
+
+  const STORAGE_KEY = 'bma5001_innovation_idea_lab_v2';
+
+  // Updated fields array (removed groupName, teamAgreement; added otherAreaText)
+  const fields = [
+    'member1Name', 'member1Role', 'member2Name', 'member2Role',
+    'member3Name', 'member3Role', 'member4Name', 'member4Role',
+    'problemStatement', 'areaRationale', 'creativityTechnique', 'otherAreaText',
+    'idea1', 'idea2', 'peerFeedback',
+    'finalIdea', 'finalTitle', 'finalRationale', 'nextSteps'
+  ];
+
+  let selectedAreas = [];
+  let selectedStyle = null;
+
+  // ============ THEME ============
+  const themeToggle = document.getElementById('themeToggle');
+  const themeIcon = document.getElementById('themeIcon');
+  const themeLabel = document.getElementById('themeLabel');
+
+  const savedTheme = (() => {
+    try { return localStorage.getItem('bma5001_theme'); } catch (e) { return null; }
+  })();
+
+  if (savedTheme === 'light') {
+    document.documentElement.setAttribute('data-theme', 'light');
+    themeIcon.textContent = '☀️';
+    themeLabel.textContent = 'Light';
+  }
+
+  themeToggle.addEventListener('click', () => {
+    const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+    if (isLight) {
+      document.documentElement.removeAttribute('data-theme');
+      themeIcon.textContent = '🌙';
+      themeLabel.textContent = 'Dark';
+      try { localStorage.setItem('bma5001_theme', 'dark'); } catch(e) {}
+    } else {
+      document.documentElement.setAttribute('data-theme', 'light');
+      themeIcon.textContent = '☀️';
+      themeLabel.textContent = 'Light';
+      try { localStorage.setItem('bma5001_theme', 'light'); } catch(e) {}
+    }
+  });
+
+  // ============ AUTO-EXPAND & SAVE ============
+  function autoExpand(el) {
+    el.style.height = 'auto';
+    el.style.height = Math.min(el.scrollHeight, 500) + 'px';
+  }
+
+  function saveData() {
+    const data = {};
+    fields.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) data[id] = el.value;
+    });
+    data._selectedAreas = selectedAreas;
+    data._selectedStyle = selectedStyle;
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      showSaveStatus();
+    } catch (e) {
+      console.warn('Could not save', e);
+    }
+  }
+
+  function loadData() {
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      if (!stored) return;
+      const data = JSON.parse(stored);
+      fields.forEach(id => {
+        const el = document.getElementById(id);
+        if (el && data[id] !== undefined) {
+          el.value = data[id];
+          setTimeout(() => autoExpand(el), 30);
+        }
+      });
+      if (Array.isArray(data._selectedAreas)) {
+        selectedAreas = data._selectedAreas;
+        document.querySelectorAll('.area-card').forEach(card => {
+          if (selectedAreas.includes(card.dataset.area)) {
+            card.classList.add('selected');
+            card.setAttribute('aria-pressed', 'true');
+          }
+        });
+        // Show "Other" input if "Other" was selected
+        if (selectedAreas.includes('Other')) {
+          document.getElementById('otherAreaGroup').style.display = 'block';
+        }
+      }
+      if (data._selectedStyle) {
+        selectedStyle = data._selectedStyle;
+        document.querySelectorAll('.style-option').forEach(opt => {
+          if (opt.dataset.style === selectedStyle) { opt.classList.add('selected'); opt.setAttribute('aria-pressed', 'true'); }
+        });
+      }
+    } catch (e) {
+      console.warn('Could not load', e);
+    }
+  }
+
+  let saveTimer;
+  function showSaveStatus() {
+    const el = document.getElementById('saveStatus');
+    el.textContent = 'Saved ✓';
+    el.classList.add('saved');
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(() => {
+      el.textContent = 'Auto-saved';
+      el.classList.remove('saved');
+    }, 1800);
+  }
+
+  // ============ PROGRESS ============
+  function updateProgress() {
+    const essentialFields = [
+      'member1Name', 'problemStatement', 'areaRationale',
+      'idea1', 'idea2',
+      'finalIdea', 'finalTitle', 'finalRationale'
+    ];
+    let filled = 0;
+    essentialFields.forEach(id => {
+      const el = document.getElementById(id);
+      if (el && el.value.trim().length > 5) filled++;
+    });
+    // Areas count
+    if (selectedAreas.length > 0) filled++;
+    // Member count
+    const members = ['member1Name', 'member2Name', 'member3Name', 'member4Name']
+      .filter(id => document.getElementById(id)?.value.trim());
+    if (members.length >= 2) filled++;
+    
+    // Total = 10 (adjusted for removed fields)
+    const total = 10;
+    const percent = Math.round((filled / total) * 100);
+    document.getElementById('progressPercent').textContent = percent + '%';
+    document.getElementById('progressFill').style.width = percent + '%';
+    document.getElementById('progressTrack').setAttribute('aria-valuenow', String(percent));
+
+    // Completion
+    {
+      const banner = document.getElementById('completionBanner');
+      if (percent < 90) { banner.classList.remove('show'); return; }
+      if (!banner.classList.contains('show')) {
+        banner.classList.add('show');
+        launchConfetti();
+        banner.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+  }
+
+  // ============ AREA CARDS & "OTHER" LOGIC ============
+  document.querySelectorAll('.area-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const area = card.dataset.area;
+      if (selectedAreas.includes(area)) {
+        selectedAreas = selectedAreas.filter(a => a !== area);
+        card.classList.remove('selected');
+        card.setAttribute('aria-pressed', 'false');
+      } else {
+        selectedAreas.push(area);
+        card.classList.add('selected');
+        card.setAttribute('aria-pressed', 'true');
+      }
+      
+      // Toggle "Other" input visibility
+      const otherGroup = document.getElementById('otherAreaGroup');
+      if (selectedAreas.includes('Other')) {
+        otherGroup.style.display = 'block';
+        setTimeout(() => {
+          otherGroup.style.opacity = '1';
+          otherGroup.style.transform = 'translateY(0)';
+        }, 10);
+      } else {
+        otherGroup.style.display = 'none';
+        document.getElementById('otherAreaText').value = ''; // Clear when deselected
+      }
+      
+      saveData();
+      updateProgress();
+    });
+  });
+
+  // ============ KEYBOARD SUPPORT FOR SELECTABLE CARDS ============
+  document.querySelectorAll('.area-card, .style-option').forEach(card => {
+    card.addEventListener('keydown', event => {
+      if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); card.click(); }
+    });
+  });
+
+  // ============ WORK STYLE ============
+  document.querySelectorAll('.style-option').forEach(opt => {
+    opt.addEventListener('click', () => {
+      document.querySelectorAll('.style-option').forEach(o => { o.classList.remove('selected'); o.setAttribute('aria-pressed', 'false'); });
+      opt.classList.add('selected');
+      opt.setAttribute('aria-pressed', 'true');
+      selectedStyle = opt.dataset.style;
+      saveData();
+    });
+  });
+
+  // ============ INPUT LISTENERS ============
+  fields.forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.addEventListener('input', () => {
+      autoExpand(el);
+      saveData();
+      updateProgress();
+    });
+  });
+
+  // ============ SCROLL ANIMATIONS (Intersection Observer) ============
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+  };
+
+  const scrollObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        scrollObserver.unobserve(entry.target);
+      }
+    });
+  }, observerOptions);
+
+  document.querySelectorAll('.round').forEach(round => {
+    scrollObserver.observe(round);
+  });
+
+  // ============ CONFETTI ============
+  const canvas = document.getElementById('confetti-canvas');
+  const ctx = canvas.getContext('2d');
+  let particles = [];
+  let confettiActive = false;
+
+  function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  window.addEventListener('resize', resizeCanvas);
+  resizeCanvas();
+
+  function launchConfetti() {
+    if (confettiActive) return;
+    confettiActive = true;
+    canvas.classList.add('active');
+    particles = [];
+    const colors = ['#7c3aed', '#c8a415', '#06b6d4', '#10b981', '#a78bfa', '#e0be3a'];
+    for (let i = 0; i < 150; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: -20 - Math.random() * canvas.height,
+        size: 6 + Math.random() * 6,
+        speedY: 2 + Math.random() * 3,
+        speedX: -1 + Math.random() * 2,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        rotation: Math.random() * 360,
+        rotationSpeed: -5 + Math.random() * 10,
+        shape: Math.random() > 0.5 ? 'circle' : 'square'
+      });
+    }
+    animateConfetti();
+    setTimeout(() => {
+      confettiActive = false;
+      canvas.classList.remove('active');
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }, 5000);
+  }
+
+  function animateConfetti() {
+    if (!confettiActive) return;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => {
+      p.y += p.speedY;
+      p.x += p.speedX;
+      p.rotation += p.rotationSpeed;
+      if (p.y > canvas.height + 20) {
+        p.y = -20;
+        p.x = Math.random() * canvas.width;
+      }
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rotation * Math.PI / 180);
+      ctx.fillStyle = p.color;
+      if (p.shape === 'circle') {
+        ctx.beginPath();
+        ctx.arc(0, 0, p.size / 2, 0, Math.PI * 2);
+        ctx.fill();
+      } else {
+        ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+      }
+      ctx.restore();
+    });
+    requestAnimationFrame(animateConfetti);
+  }
+
+  // ============ TOAST ============
+  let toastTimer;
+  function showToast(message) {
+    const toast = document.getElementById('toast');
+    document.getElementById('toastText').textContent = message;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove('show'), 2500);
+  }
+
+  // ============ SAVE AS WORD ============
+  function buildExportHTML() {
+    const get = id => (document.getElementById(id)?.value || '').trim() || '(not completed)';
+    const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    
+    // Handle "Other" area display
+    let areaDisplay = selectedAreas.join(', ') || '(not selected)';
+    if (selectedAreas.includes('Other')) {
+      const otherText = get('otherAreaText');
+      areaDisplay = areaDisplay.replace('Other', `Other: ${otherText || '(not specified)'}`);
+    }
+
+    return `
+      <html xmlns:o='urn:schemas-microsoft-com:office:office'
+            xmlns:w='urn:schemas-microsoft-com:office:word'
+            xmlns='http://www.w3.org/TR/REC-html40'>
+      <head><meta charset='utf-8'><title>BMA5001 – Innovation Idea Lab</title>
+      <style>
+        body { font-family: Calibri, Arial, sans-serif; color: #1a1a1a; font-size: 11pt; line-height: 1.6; }
+        .header { background: #003366; color: #fff; padding: 24px; text-align: center; border-bottom: 4px solid #c8a415; }
+        .header h1 { margin: 0; font-size: 20pt; }
+        .header p { margin: 6px 0 0; opacity: 0.9; font-size: 10pt; }
+        h2 { color: #003366; border-bottom: 2px solid #c8a415; padding-bottom: 6px; font-size: 14pt; margin-top: 26px; }
+        .q { background: #f4f7fc; padding: 12px 16px; border-left: 4px solid #003366; margin: 12px 0; }
+        .q strong { color: #003366; display: block; margin-bottom: 6px; font-size: 10.5pt; }
+        .ans { background: #fff; padding: 10px 14px; border: 1px solid #ccc; white-space: pre-wrap; min-height: 24px; }
+        .meta { color: #666; font-size: 9.5pt; font-style: italic; }
+        .footer { margin-top: 34px; padding: 16px; background: #003366; color: #fff; text-align: center; font-size: 9pt; }
+        .footer a { color: #c8a415; }
+      </style>
+      </head>
+      <body>
+        <div class="header">
+          <h1>BMA5001 – Innovation Management</h1>
+          <p>Session 3 – Activity One · Innovation Idea Lab</p>
+        </div>
+        <p class="meta">Generated: ${new Date().toLocaleString('en-GB')}</p>
+
+        <h2>Round 1 – Form Your Group</h2>
+        <div class="q"><strong>Members</strong><div class="ans">
+          1. ${esc(get('member1Name'))} — ${esc(get('member1Role'))}
+          2. ${esc(get('member2Name'))} — ${esc(get('member2Role'))}
+          3. ${esc(get('member3Name'))} — ${esc(get('member3Role'))}
+          4. ${esc(get('member4Name'))} — ${esc(get('member4Role'))}
+        </div></div>
+
+        <h2>Round 2 – Define Your Innovation Idea</h2>
+        <div class="q"><strong>Broad Area(s) of Interest</strong><div class="ans">${esc(areaDisplay)}</div></div>
+        <div class="q"><strong>Problem You Want to Solve</strong><div class="ans">${esc(get('problemStatement'))}</div></div>
+        <div class="q"><strong>Why This Area Interests You</strong><div class="ans">${esc(get('areaRationale'))}</div></div>
+        <div class="q"><strong>Creativity Technique Used</strong><div class="ans">${esc(get('creativityTechnique'))}</div></div>
+
+        <h2>Round 3 – Pitch & Final Decision</h2>
+        <div class="q"><strong>Idea 1</strong><div class="ans">${esc(get('idea1'))}</div></div>
+        <div class="q"><strong>Idea 2</strong><div class="ans">${esc(get('idea2'))}</div></div>
+        <div class="q"><strong>Peer Feedback Received</strong><div class="ans">${esc(get('peerFeedback'))}</div></div>
+        <div class="q"><strong>Chosen Idea</strong><div class="ans">${esc(get('finalIdea'))}</div></div>
+        <div class="q"><strong>Working Title</strong><div class="ans">${esc(get('finalTitle'))}</div></div>
+        <div class="q"><strong>Why This Idea?</strong><div class="ans">${esc(get('finalRationale'))}</div></div>
+        <div class="q"><strong>Next Step Before Session 4</strong><div class="ans">${esc(get('nextSteps'))}</div></div>
+
+        <div class="footer">
+          Bath Spa University – Hackney Campus<br>
+          BMA5001 – Innovation Management · Module Leader: Mohammed Hbubati<br>
+          <a href="mailto:m.hbubati@bathspa.ac.uk">m.hbubati@bathspa.ac.uk</a>
+        </div>
+      </body></html>
+    `;
+  }
+
+  document.getElementById('saveWordBtn').addEventListener('click', () => {
+    const html = buildExportHTML();
+    const blob = new Blob(['\ufeff', html], { type: 'application/msword' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'BMA5001_S3_Innovation_Idea_Lab.doc';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    showToast('Saved as Word document');
+  });
+
+  document.getElementById('resetBtn').addEventListener('click', () => {
+    if (!confirm('⚠️ Are you sure?\n\nThis will clear all your work. You cannot undo this.')) return;
+    fields.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) { el.value = ''; el.style.height = 'auto'; }
+    });
+    selectedAreas = [];
+    selectedStyle = null;
+    document.querySelectorAll('.area-card, .style-option').forEach(el => { el.classList.remove('selected'); el.setAttribute('aria-pressed', 'false'); });
+    document.getElementById('otherAreaGroup').style.display = 'none';
+    document.getElementById('completionBanner').classList.remove('show');
+    try { localStorage.removeItem(STORAGE_KEY); } catch(e) {}
+    updateProgress();
+    showToast('All answers cleared');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  // ============ INIT ============
+  loadData();
+  updateProgress();
+  // Auto-expand all textareas on load
+  document.querySelectorAll('textarea').forEach(ta => setTimeout(() => autoExpand(ta), 50));
+
+  console.log('✨ BMA5001 Innovation Idea Lab loaded with enhanced dynamics.');
+})();
+</script>
+</body>
+</html>
