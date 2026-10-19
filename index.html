@@ -60,7 +60,7 @@
 [data-theme="light"] {
   --bg-primary: #f5f8fc;
   --bg-secondary: #e8eff7;
-  --bg-card: rgba(255, 255, 255, 0.9);
+  --bg-card: rgba(255, 255, 255, 0.95);
   --bg-card-solid: #ffffff;
   --bg-elevated: #eef3f8;
   --bg-input: #ffffff;
@@ -191,6 +191,10 @@ body::before {
   letter-spacing: 2px;
   text-transform: uppercase;
   margin-bottom: 16px;
+}
+[data-theme="light"] .module-badge {
+  color: var(--bsu-gold-dark);
+  border-color: var(--bsu-gold-dark);
 }
 h1 {
   font-size: clamp(28px, 5vw, 44px);
@@ -523,6 +527,7 @@ h1 {
 }
 .style-option .style-icon { font-size: 22px; display: block; margin-bottom: 6px; }
 .style-option .style-label { font-size: 12.5px; font-weight: 700; color: var(--text-primary); }
+.style-option .style-label small { font-weight: 500; color: var(--text-muted); font-size: 11px; }
 
 /* ===== AREA CARDS ===== */
 .area-grid {
@@ -838,27 +843,27 @@ h1 {
   border-top: 5px solid #ffd84d;
   border-radius: var(--radius-lg);
   text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
   color: #ffffff;
+  line-height: 1.8;
+  font-size: 14px;
 }
-.footer-university, .footer-tagline, .footer-contact a { color: #ffe45c !important; }
-.footer-module, .footer-contact { color: #ffffff !important; }
-.footer-contact a { text-decoration: none; font-weight: 700; }
-.footer-contact a:hover { text-decoration: underline; }
-.footer-divider {
-  width: 80px;
-  height: 2px;
-  background: #ffe45c;
-  margin: 14px auto;
-  border-radius: 1px;
+[data-theme="light"] .module-footer {
+  background: linear-gradient(125deg, #e8eff7, #f5f8fc);
+  color: var(--bsu-navy);
+  border-color: var(--bsu-navy);
+  border-top-color: var(--bsu-gold-dark);
 }
-.footer-tagline {
-  font-size: 12.5px;
+.module-footer a {
+  color: #ffe45c;
+  text-decoration: none;
   font-weight: 700;
-  letter-spacing: 0.5px;
+}
+[data-theme="light"] .module-footer a {
+  color: var(--bsu-navy);
+}
+.module-footer a:hover {
+  text-decoration: underline;
+  color: #ffd84d;
 }
 
 /* ===== CONFETTI CANVAS ===== */
@@ -922,7 +927,7 @@ h1 {
   .round-title-wrap, .round-intro { color: #333 !important; }
   .field-input, .field-textarea { border: 1px solid #999 !important; background: #fff !important; color: #111 !important; }
   .module-footer { color: #111 !important; }
-  .footer-university, .footer-tagline, .footer-module, .footer-contact, .footer-contact a { color: #111 !important; }
+  .module-footer a { color: #003366 !important; }
 }
 
 @media (forced-colors: active) {
@@ -1003,6 +1008,24 @@ h1 {
     </div>
 
     <div class="field-group">
+      <label class="field-label">How will your group work together? <span class="field-hint">(Select one)</span></label>
+      <div class="work-style" id="workStyleGrid">
+        <div class="style-option" data-style="synchronous" role="button" tabindex="0" aria-pressed="false">
+          <span class="style-icon">💻</span>
+          <span class="style-label">Synchronous<br><small>(Live meetings)</small></span>
+        </div>
+        <div class="style-option" data-style="asynchronous" role="button" tabindex="0" aria-pressed="false">
+          <span class="style-icon">📝</span>
+          <span class="style-label">Asynchronous<br><small>(Shared docs)</small></span>
+        </div>
+        <div class="style-option" data-style="hybrid" role="button" tabindex="0" aria-pressed="false">
+          <span class="style-icon">🔄</span>
+          <span class="style-label">Hybrid<br><small>(Mix of both)</small></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="field-group">
       <label class="field-label">Group members <span class="field-hint">(name + role, up to 4)</span></label>
       <div class="member-row">
         <div class="member-number">1</div>
@@ -1079,7 +1102,7 @@ h1 {
       <div class="field-group" id="otherAreaGroup" style="display: none; margin-top: 16px;">
         <label class="field-label" for="otherAreaText">Please specify your area of interest</label>
         <input type="text" class="field-input" id="otherAreaText" placeholder="e.g., Sustainable Fashion, EdTech, Smart Cities, etc." />
-      </div are>
+      </div>
     </div>
 
     <div class="field-group">
@@ -1161,6 +1184,11 @@ h1 {
           <span class="field-hint">(what made you choose it over the other?)</span>
         </label>
         <textarea class="field-textarea large" id="finalRationale" placeholder="e.g., It solves a real problem, has a clear market, and my partner's feedback helped me see it's more scalable than my first idea..."></textarea>
+        <button class="top-btn" id="revealModelBtn" style="margin-top: 10px; font-size: 12px; padding: 8px 14px;" type="button">💡 View Model Rationale</button>
+        <div id="modelRationale" style="display: none; margin-top: 12px; padding: 16px; background: rgba(124, 58, 237, 0.1); border: 1px solid rgba(124, 58, 237, 0.3); border-radius: 12px; font-size: 14px; color: var(--text-secondary); line-height: 1.6;">
+          <strong style="color: var(--accent-innovation); display: block; margin-bottom: 8px;">Example Response:</strong>
+          "I chose Idea 1 because it directly addresses the core problem of accessibility, whereas Idea 2, while innovative, requires a behavioral change that our target demographic may resist. Furthermore, Idea 1 leverages existing infrastructure, reducing our initial capital expenditure and time-to-market, which aligns with our group's resource constraints."
+        </div>
       </div>
       <div class="field-group" style="margin-bottom: 0;">
         <label class="field-label" for="nextSteps">
@@ -1198,11 +1226,9 @@ h1 {
 
 <!-- FOOTER -->
 <footer class="module-footer">
-  <div class="footer-university">🏛️ Bath Spa University — Hackney</div>
-  <div class="footer-module">BMA5001 — Innovation Management</div>
-  <div class="footer-contact">Module Leader: Mohammed Hbubati · <a href="mailto:m.hbubati@bathspa.ac.uk">m.hbubati@bathspa.ac.uk</a></div>
-  <div class="footer-divider"></div>
-  <div class="footer-tagline">🌱 Designed for Interactive & Sustainable Learning</div>
+  Designed for Interactive & Sustainable Learning 🌱 | Bath Spa University – Hackney Campus
+  <br />
+  Module Leader: Mohammed Hbubati | Email 📧: <a href="mailto:m.hbubati@bathspa.ac.uk">m.hbubati@bathspa.ac.uk</a>
 </footer>
 
 <!-- TOAST -->
@@ -1215,9 +1241,8 @@ h1 {
 (function() {
   'use strict';
 
-  const STORAGE_KEY = 'bma5001_innovation_idea_lab_v2';
+  const STORAGE_KEY = 'bma5001_innovation_idea_lab_v3';
 
-  // Updated fields array (removed groupName, teamAgreement; added otherAreaText)
   const fields = [
     'member1Name', 'member1Role', 'member2Name', 'member2Role',
     'member3Name', 'member3Role', 'member4Name', 'member4Role',
@@ -1301,7 +1326,6 @@ h1 {
             card.setAttribute('aria-pressed', 'true');
           }
         });
-        // Show "Other" input if "Other" was selected
         if (selectedAreas.includes('Other')) {
           document.getElementById('otherAreaGroup').style.display = 'block';
         }
@@ -1341,21 +1365,17 @@ h1 {
       const el = document.getElementById(id);
       if (el && el.value.trim().length > 5) filled++;
     });
-    // Areas count
     if (selectedAreas.length > 0) filled++;
-    // Member count
     const members = ['member1Name', 'member2Name', 'member3Name', 'member4Name']
       .filter(id => document.getElementById(id)?.value.trim());
     if (members.length >= 2) filled++;
     
-    // Total = 10 (adjusted for removed fields)
     const total = 10;
     const percent = Math.round((filled / total) * 100);
     document.getElementById('progressPercent').textContent = percent + '%';
     document.getElementById('progressFill').style.width = percent + '%';
     document.getElementById('progressTrack').setAttribute('aria-valuenow', String(percent));
 
-    // Completion
     {
       const banner = document.getElementById('completionBanner');
       if (percent < 90) { banner.classList.remove('show'); return; }
@@ -1381,7 +1401,6 @@ h1 {
         card.setAttribute('aria-pressed', 'true');
       }
       
-      // Toggle "Other" input visibility
       const otherGroup = document.getElementById('otherAreaGroup');
       if (selectedAreas.includes('Other')) {
         otherGroup.style.display = 'block';
@@ -1391,7 +1410,7 @@ h1 {
         }, 10);
       } else {
         otherGroup.style.display = 'none';
-        document.getElementById('otherAreaText').value = ''; // Clear when deselected
+        document.getElementById('otherAreaText').value = '';
       }
       
       saveData();
@@ -1428,12 +1447,8 @@ h1 {
     });
   });
 
-  // ============ SCROLL ANIMATIONS (Intersection Observer) ============
-  const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
-  };
-
+  // ============ SCROLL ANIMATIONS ============
+  const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
   const scrollObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -1524,50 +1539,57 @@ h1 {
     toastTimer = setTimeout(() => toast.classList.remove('show'), 2500);
   }
 
-  // ============ SAVE AS WORD ============
+  // ============ ELITE MS WORD EXPORT ============
   function buildExportHTML() {
-    const get = id => (document.getElementById(id)?.value || '').trim() || '(not completed)';
-    const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    const get = id => {
+      const el = document.getElementById(id);
+      return el ? el.value.trim() : '';
+    };
+    const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br>');
     
-    // Handle "Other" area display
-    let areaDisplay = selectedAreas.join(', ') || '(not selected)';
+    let areaDisplay = selectedAreas.length > 0 ? selectedAreas.join(', ') : '(not selected)';
     if (selectedAreas.includes('Other')) {
       const otherText = get('otherAreaText');
       areaDisplay = areaDisplay.replace('Other', `Other: ${otherText || '(not specified)'}`);
     }
 
+    const workStyleDisplay = selectedStyle ? selectedStyle.charAt(0).toUpperCase() + selectedStyle.slice(1) : '(not selected)';
+
     return `
       <html xmlns:o='urn:schemas-microsoft-com:office:office'
             xmlns:w='urn:schemas-microsoft-com:office:word'
             xmlns='http://www.w3.org/TR/REC-html40'>
-      <head><meta charset='utf-8'><title>BMA5001 – Innovation Idea Lab</title>
-      <style>
-        body { font-family: Calibri, Arial, sans-serif; color: #1a1a1a; font-size: 11pt; line-height: 1.6; }
-        .header { background: #003366; color: #fff; padding: 24px; text-align: center; border-bottom: 4px solid #c8a415; }
-        .header h1 { margin: 0; font-size: 20pt; }
-        .header p { margin: 6px 0 0; opacity: 0.9; font-size: 10pt; }
-        h2 { color: #003366; border-bottom: 2px solid #c8a415; padding-bottom: 6px; font-size: 14pt; margin-top: 26px; }
-        .q { background: #f4f7fc; padding: 12px 16px; border-left: 4px solid #003366; margin: 12px 0; }
-        .q strong { color: #003366; display: block; margin-bottom: 6px; font-size: 10.5pt; }
-        .ans { background: #fff; padding: 10px 14px; border: 1px solid #ccc; white-space: pre-wrap; min-height: 24px; }
-        .meta { color: #666; font-size: 9.5pt; font-style: italic; }
-        .footer { margin-top: 34px; padding: 16px; background: #003366; color: #fff; text-align: center; font-size: 9pt; }
-        .footer a { color: #c8a415; }
-      </style>
+      <head>
+        <meta charset='utf-8'>
+        <title>BMA5001 – Innovation Idea Lab</title>
+        <style>
+          body { font-family: 'Segoe UI', Calibri, Arial, sans-serif; color: #1a1a1a; font-size: 11pt; line-height: 1.6; margin: 0; padding: 0; }
+          .header { background: #003366; color: #ffffff; padding: 24px 30px; text-align: center; border-bottom: 4px solid #c8a415; }
+          .header h1 { margin: 0; font-size: 22pt; font-weight: 700; letter-spacing: 0.5px; }
+          .header p { margin: 8px 0 0; opacity: 0.9; font-size: 11pt; }
+          h2 { color: #003366; border-bottom: 2px solid #c8a415; padding-bottom: 6px; font-size: 14pt; margin-top: 28px; margin-bottom: 12px; }
+          .q { background: #f4f7fc; padding: 14px 18px; border-left: 4px solid #003366; margin: 16px 0; border-radius: 0 8px 8px 0; }
+          .q strong { color: #003366; display: block; margin-bottom: 8px; font-size: 11pt; }
+          .ans { background: #ffffff; padding: 12px 16px; border: 1px solid #d1d9e6; border-radius: 6px; white-space: pre-wrap; min-height: 24px; color: #333; }
+          .meta { color: #666; font-size: 10pt; font-style: italic; text-align: right; margin: 20px 30px 0; }
+          .footer { margin-top: 40px; padding: 20px 30px; background: #003366; color: #ffffff; text-align: center; font-size: 10pt; line-height: 1.6; }
+          .footer a { color: #c8a415; text-decoration: none; font-weight: 700; }
+        </style>
       </head>
       <body>
         <div class="header">
           <h1>BMA5001 – Innovation Management</h1>
-          <p>Session 3 – Activity One · Innovation Idea Lab</p>
+          <p>Session 3 – Activity: Innovation Idea Lab</p>
         </div>
-        <p class="meta">Generated: ${new Date().toLocaleString('en-GB')}</p>
+        <p class="meta">Generated: ${new Date().toLocaleString('en-GB', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' })}</p>
 
         <h2>Round 1 – Form Your Group</h2>
-        <div class="q"><strong>Members</strong><div class="ans">
-          1. ${esc(get('member1Name'))} — ${esc(get('member1Role'))}
-          2. ${esc(get('member2Name'))} — ${esc(get('member2Role'))}
-          3. ${esc(get('member3Name'))} — ${esc(get('member3Role'))}
-          4. ${esc(get('member4Name'))} — ${esc(get('member4Role'))}
+        <div class="q"><strong>Collaboration Style</strong><div class="ans">${esc(workStyleDisplay)}</div></div>
+        <div class="q"><strong>Group Members</strong><div class="ans">
+          1. ${esc(get('member1Name') || 'Not provided')} — ${esc(get('member1Role') || 'Not provided')}
+          2. ${esc(get('member2Name') || 'Not provided')} — ${esc(get('member2Role') || 'Not provided')}
+          3. ${esc(get('member3Name') || 'Not provided')} — ${esc(get('member3Role') || 'Not provided')}
+          4. ${esc(get('member4Name') || 'Not provided')} — ${esc(get('member4Role') || 'Not provided')}
         </div></div>
 
         <h2>Round 2 – Define Your Innovation Idea</h2>
@@ -1586,6 +1608,7 @@ h1 {
         <div class="q"><strong>Next Step Before Session 4</strong><div class="ans">${esc(get('nextSteps'))}</div></div>
 
         <div class="footer">
+          Designed for Interactive & Sustainable Learning 🌱<br>
           Bath Spa University – Hackney Campus<br>
           BMA5001 – Innovation Management · Module Leader: Mohammed Hbubati<br>
           <a href="mailto:m.hbubati@bathspa.ac.uk">m.hbubati@bathspa.ac.uk</a>
@@ -1625,13 +1648,24 @@ h1 {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 
+  // ============ MODEL ANSWER TOGGLE ============
+  document.getElementById('revealModelBtn')?.addEventListener('click', function() {
+    const model = document.getElementById('modelRationale');
+    if (model.style.display === 'none') {
+      model.style.display = 'block';
+      this.textContent = '🙈 Hide Model Rationale';
+    } else {
+      model.style.display = 'none';
+      this.textContent = '💡 View Model Rationale';
+    }
+  });
+
   // ============ INIT ============
   loadData();
   updateProgress();
-  // Auto-expand all textareas on load
   document.querySelectorAll('textarea').forEach(ta => setTimeout(() => autoExpand(ta), 50));
 
-  console.log('✨ BMA5001 Innovation Idea Lab loaded with enhanced dynamics.');
+  console.log('✨ BMA5001 Innovation Idea Lab loaded with elite enhancements.');
 })();
 </script>
 </body>
